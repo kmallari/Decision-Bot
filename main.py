@@ -51,10 +51,10 @@ async def rng(ctx, *args):
 
   # number from X to X
   elif len(args) == 2 and is_number(args[0]) and is_number(args[1]):    
-    embed=discord.Embed(title=f"<:PauseChamp:877817523121295420> Generating a number...", description=f"A number between {args[0] if args[0] < args[1] else args[1]} and {args[0] if args[0] > args[1] else args[1]} is being generated", color=0x7652fa)
+    embed=discord.Embed(title=f"<:PauseChamp:877817523121295420> Generating a number...", description=f"A number between {args[0] if int(args[0]) < int(args[1]) else args[1]} and {args[0] if int(args[0]) > int(args[1]) else args[1]} is being generated", color=0x7652fa)
     await ctx.channel.send(embed=embed)
     time.sleep(delay)
-    embed.add_field(name="The number generated is", value=f"`{random.randint(int(args[0] if args[0] < args[1] else args[1]), int(args[0] if args[0] > args[1] else args[1]))}`", inline=False)
+    embed.add_field(name="The number generated is", value=f"`{random.randint(int(args[0]) if int(args[0]) < int(args[1]) else int(args[1]), int(args[0]) if int(args[0]) > int(args[1]) else int(args[1]))}`", inline=False)
     await ctx.channel.send(embed=embed)    
 
 @bot.command()
