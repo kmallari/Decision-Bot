@@ -2,6 +2,7 @@ from discord.ext import commands
 import discord
 import os
 import random
+import time
 
 # bot and client startup
 client = discord.Client()
@@ -31,32 +32,64 @@ def is_number(s):
 
   return False
 
+# <:PauseChamp:877817523121295420>
+
+delay = 1.5
+
 @bot.command()
-async def roll(ctx, *args):
+async def rng(ctx, *args):
+  # number from 1 to X
   if len(args) == 1 and is_number(args[0]):
-    await ctx.channel.send(f'Choosing a number from 1 to {args[0]}')
-    await ctx.channel.send(f'The number is: {random.randint(1, int(args[0]))}')
-  elif len(args) == 2 and is_number(args[0]) and is_number(args[1]):
-    await ctx.channel.send(f'Choosing a number from {args[0] if args[0] > args[1] else args[1]} and {args[0] if args[0] < args[1] else args[1]} ')
-    await ctx.channel.send(f'The number is: {random.randint(int(args[0]), int(args[1]))}')
-  elif args[0] == "coinflip":
-    await ctx.channel.send(f'Flipping a coin...')
-    await ctx.channel.send(f'The coin shows... {"heads" if random.randint(0,1) == 1 else "tails"}')
-  elif len(args) == 2 and args[0] == "dice" and is_number(args[1]):
-    await ctx.channel.send(f'Rolling a {args[1]} sided dice...')
-    await ctx.channel.send(f'The dice rolled: {random.randint(1, int(args[1]))}')
-  elif len(args) > 2 and args[0] == "dice" and is_number(args[1]) and is_number(args[2]): 
-    await ctx.channel.send(f'Rolling a {args[1]}-sided dice {args[2]} times')
-    dice_value_arr = []
-    for i in range(int(args[2])):
-      dice_value_arr.append(f'``{random.randint(1,int(args[1]))}/{args[1]}``')
-    dice_value_str = " | ".join(dice_value_arr)
-    await ctx.channel.send(f'The dice rolled: {dice_value_str}')
-  elif args[0] == "dice":
-    await ctx.channel.send(f'Rolling a 6 sided dice...')
-    await ctx.channel.send(f'The dice rolled: {random.randint(1, 6)}')
+    embed=discord.Embed(title=f"<:PauseChamp:877817523121295420> Generating a number...", description=f"A number between 1 and {args[0]} is being generated.", color=0x7652fa)
+    await ctx.channel.send(embed=embed)
+    time.sleep(delay)
+    embed.add_field(name="The number generated is", value=f"`{random.randint(1, int(args[0]))}`", inline=False)
+    await ctx.channel.send(embed=embed)
+
+  # number from X to X
+  elif len(args) == 2 and is_number(args[0]) and is_number(args[1]):    
+    embed=discord.Embed(title=f"<:PauseChamp:877817523121295420> Generating a number...", description=f"A number between {args[0] if args[0] > args[1] else args[1]} and {args[0] if args[0] < args[1] else args[1]} is being generated", color=0x7652fa)
+    await ctx.channel.send(embed=embed)
+    time.sleep(delay)
+    embed.add_field(name="The number generated is", value=f"`{random.randint(int(args[0] if args[0] > args[1] else args[1]), int(args[0] if args[0] < args[1] else args[1]))}`", inline=False)
+    await ctx.channel.send(embed=embed)    
+
+@bot.command()
+async def flip(ctx):
+  embed=discord.Embed(title=f"<:PauseChamp:877817523121295420> Flipping a coin...", description=f"The result will either be heads or tails.", color=0x7652fa)
+  await ctx.channel.send(embed=embed)
+  time.sleep(delay)
+  result = random.randint(0, 1)
+  embed.add_field(name="The coin flipped:", value=f"", inline=False)
+  if result == 1:
+    embed.set_image(url="https://i.imgur.com/rAhnfvC.png")
   else:
-    await ctx.channel.send(f'Choosing from your list...')
-    await ctx.channel.send(f'I chose: {random.choice(args)}')
+    embed.set_image(url="https://i.imgur.com/7NJsYAB.png")
+  embed.set_field_at(index=0, name="The coin flipped: ", value=f"{'***Heads!***' if result == 1 else '***Tails!***'}", inline=False)
+  await ctx.channel.send(embed=embed)
+
+# multisided dice, X amount of times
+@bot.command()
+async def roll(ctx, sides, num_of_rolls):
+  embed=discord.Embed(title=f"<:PauseChamp:877817523121295420> Rolling a {sides}-sided dice", description=f"{num_of_rolls} times.", color=0x7652fa)
+  time.sleep(delay)
+  dice_value_arr = []
+  for i in range(int(num_of_rolls)):
+    dice_value_arr.append(f'``{random.randint(1,int(sides))}/{sides}``')
+  dice_value_str = " | ".join(dice_value_arr)
+  await ctx.channel.send(embed=embed)
+  embed.add_field(name="The result/s of the dice is/are: ", value=f"{dice_value_str}", inline=False)
+  await ctx.channel.send(embed=embed)
+
+@bot.command()
+async def list(ctx, *args):
+  # await ctx.channel.send(f'Choosing from your list...')
+  # await ctx.channel.send(f'I chose: {random.choice(args)}')
+  list_str = ", ".join(args)
+  embed=discord.Embed(title=f"<:PauseChamp:877817523121295420> Choosing from your list...", description=f"Choosing from {list_str}", color=0x7652fa)
+  await ctx.channel.send(embed=embed)
+  time.sleep(delay)
+  embed.add_field(name="I have chosen: ", value=f"`{random.choice(args)}`", inline=False)
+  await ctx.channel.send(embed=embed)
 
 bot.run(os.getenv('TOKEN'))
