@@ -1,0 +1,32 @@
+{
+  "content": null,
+  "embeds": [
+    {
+      "title": "Commands",
+      "description": "Here are the commands that the bot understands. Make sure to include the prefix ``#`` before the command.‏‏‎ ‎",
+      "color": 5814783,
+      "fields": [
+        {
+          "name": "`#help`",
+          "value": "Displays all the possible commands.\n‏‏‎ ‎"
+        },
+        {
+          "name": "`#rng <number> <number (optional)> `",
+          "value": "If only one number is entered after the command, a number from 1 to `that number` is generated. If two numbers are entered, a number from within the range of the two numbers is generated.\nExample: ``#rng 5`` (this generates a number from 1 - 5)\nExample: `#rng 20 100` (this generates sa number from 20 to 100)\n‏‏‎ ‎"
+        },
+        {
+          "name": "`#roll <sides> <rolls>`",
+          "value": "Roll a dice. The first number after the command is the number of sides the dice has, and the second number is the number of rolls you want to do.\nExample: `#roll 6 4` (this rolls a 6-sided dice, 4 times.)\n‏‏‎ ‎"
+        },
+        {
+          "name": "`#flip`",
+          "value": "Flip a coin. The output will be either heads or tails.\n‏‏‎ ‎"
+        },
+        {
+          "name": "`#list <choice1> <choice2> <etc...>`",
+          "value": "Make me choose randomly from a list of your choice. Make sure to separate each item using a space.\nExample: `#list apple banana orange` (this chooses a random fruit between the three choices)"
+        }
+      ]
+    }
+  ]
+}
